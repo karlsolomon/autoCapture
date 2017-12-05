@@ -124,7 +124,7 @@ extension ViewController {
                     PHAssetChangeRequest.creationRequestForAsset(from: image)
                 }
             }
-            print(start)
+            //print(start)
         }
         print("SUPER DONE")
     }
