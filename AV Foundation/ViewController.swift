@@ -127,6 +127,9 @@ extension ViewController {
             //print(start)
         }
         print("SUPER DONE")
+        let alert = UIAlertController(title: "DONE", message: "Done taking images", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Exit", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
