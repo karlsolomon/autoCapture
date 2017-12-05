@@ -191,7 +191,9 @@ extension CameraController: AVCapturePhotoCaptureDelegate {
             
         else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil),
             let image = UIImage(data: data) {
-            
+            var info = mach_timebase_info()
+            guard mach_timebase_info(&info) == KERN_SUCCESS else { self.photoCaptureCompletionBlock?(nil, nil) }
+            print(mach_absolute_time() * UInt64(info.numer) / UInt64(info.denom))
             self.photoCaptureCompletionBlock?(image, nil)
         }
             
