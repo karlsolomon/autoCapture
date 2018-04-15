@@ -14,9 +14,6 @@ class CameraController: NSObject {
     
     var currentCameraPosition: CameraPosition?
     
-    var frontCamera: AVCaptureDevice?
-    var frontCameraInput: AVCaptureDeviceInput?
-    
     var photoOutput: AVCapturePhotoOutput?
     
     var rearCamera: AVCaptureDevice?
@@ -39,11 +36,6 @@ extension CameraController {
             guard let cameras = (session?.devices.flatMap { $0 }), !cameras.isEmpty else { throw CameraControllerError.noCamerasAvailable }
             
             for camera in cameras {
-                if camera.position == .front {
-                    self.frontCamera = camera
-                    
-                }
-                
                 if camera.position == .back {
                     self.rearCamera = camera
                     
@@ -64,16 +56,6 @@ extension CameraController {
                 
                 self.currentCameraPosition = .rear
             }
-                
-            else if let frontCamera = self.frontCamera {
-                self.frontCameraInput = try AVCaptureDeviceInput(device: frontCamera)
-                
-                if captureSession.canAddInput(self.frontCameraInput!) { captureSession.addInput(self.frontCameraInput!) }
-                else { throw CameraControllerError.inputsAreInvalid }
-                
-                self.currentCameraPosition = .front
-            }
-                
             else { throw CameraControllerError.noCamerasAvailable }
         }
         
@@ -87,6 +69,8 @@ extension CameraController {
             captureSession.startRunning()
         }
         
+
+        
         DispatchQueue(label: "prepare").async {
             do {
                 createCaptureSession()
@@ -94,15 +78,12 @@ extension CameraController {
                 try configureDeviceInputs()
                 try configurePhotoOutput()
             }
-                
             catch {
                 DispatchQueue.main.async {
                     completionHandler(error)
                 }
-                
                 return
             }
-            
             DispatchQueue.main.async {
                 completionHandler(nil)
             }
@@ -120,58 +101,6 @@ extension CameraController {
         self.previewLayer?.frame = view.frame
     }
     
-    func switchCameras() throws {
-        guard let currentCameraPosition = currentCameraPosition, let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
-        
-        captureSession.beginConfiguration()
-        
-        func switchToFrontCamera() throws {
-            guard let inputs = captureSession.inputs as? [AVCaptureInput], let rearCameraInput = self.rearCameraInput, inputs.contains(rearCameraInput),
-                let frontCamera = self.frontCamera else { throw CameraControllerError.invalidOperation }
-            
-            self.frontCameraInput = try AVCaptureDeviceInput(device: frontCamera)
-            
-            captureSession.removeInput(rearCameraInput)
-            
-            if captureSession.canAddInput(self.frontCameraInput!) {
-                captureSession.addInput(self.frontCameraInput!)
-                
-                self.currentCameraPosition = .front
-            }
-                
-            else {
-                throw CameraControllerError.invalidOperation
-            }
-        }
-        
-        func switchToRearCamera() throws {
-            guard let inputs = captureSession.inputs as? [AVCaptureInput], let frontCameraInput = self.frontCameraInput, inputs.contains(frontCameraInput),
-                let rearCamera = self.rearCamera else { throw CameraControllerError.invalidOperation }
-            
-            self.rearCameraInput = try AVCaptureDeviceInput(device: rearCamera)
-            
-            captureSession.removeInput(frontCameraInput)
-            
-            if captureSession.canAddInput(self.rearCameraInput!) {
-                captureSession.addInput(self.rearCameraInput!)
-                
-                self.currentCameraPosition = .rear
-            }
-                
-            else { throw CameraControllerError.invalidOperation }
-        }
-        
-        switch currentCameraPosition {
-        case .front:
-            try switchToRearCamera()
-            
-        case .rear:
-            try switchToFrontCamera()
-        }
-        
-        captureSession.commitConfiguration()
-    }
-    
     func captureImage(completion: @escaping (UIImage?, Error?) -> Void) {
         guard let captureSession = captureSession, captureSession.isRunning else { completion(nil, CameraControllerError.captureSessionIsMissing); return }
         
@@ -181,21 +110,27 @@ extension CameraController {
         self.photoOutput?.capturePhoto(with: settings, delegate: self)
         self.photoCaptureCompletionBlock = completion
     }
-
 }
+
+
 
 extension CameraController: AVCapturePhotoCaptureDelegate {
     public func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?,
                         resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Swift.Error?) {
         if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
             
+        //else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.dngPhotoDataRepresentation(forRawSampleBuffer: buffer, previewPhotoSampleBuffer: nil),
         else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil),
             let image = UIImage(data: data) {
-            var info = mach_timebase_info()
-            guard mach_timebase_info(&info) == KERN_SUCCESS else { self.photoCaptureCompletionBlock?(nil, nil) }
-            print(mach_absolute_time() * UInt64(info.numer) / UInt64(info.denom))
-            self.photoCaptureCompletionBlock?(image, nil)
-        }
+                var info = mach_timebase_info()
+                guard mach_timebase_info(&info) == KERN_SUCCESS else {
+                    self.photoCaptureCompletionBlock?(nil, nil)
+                    return
+                }
+                print(mach_absolute_time() * UInt64(info.numer) / UInt64(info.denom))
+                //toggleFlash()
+                self.photoCaptureCompletionBlock?(image, nil)
+            }
             
         else {
             self.photoCaptureCompletionBlock?(nil, CameraControllerError.unknown)
@@ -214,7 +149,6 @@ extension CameraController {
     }
     
     public enum CameraPosition {
-        case front
         case rear
     }
 }

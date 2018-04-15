@@ -23,102 +23,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lnd-7g-U5f">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TK7-Oc-3y1">
-                                        <rect key="frame" x="315" y="16" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="0Ce-Tz-jFa"/>
-                                            <constraint firstAttribute="height" constant="44" id="npL-S0-4sn"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Flash Off Icon"/>
-                                        <connections>
-                                            <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yIN-VX-dCj"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNR-Vo-zfA">
-                                        <rect key="frame" x="315" y="60" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="BxO-c5-9eH"/>
-                                            <constraint firstAttribute="width" constant="44" id="jtB-nm-5Gb"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Rear Camera Icon"/>
-                                        <connections>
-                                            <action selector="switchCameras:" destination="BYZ-38-t0r" eventType="touchUpInside" id="s10-Jq-2sE"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfX-fU-RS1">
-                                        <rect key="frame" x="16" y="563" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="D1m-we-BY4"/>
-                                            <constraint firstAttribute="height" constant="44" id="Rsw-fr-vae"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Photo Camera Icon"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4wa-M1-7a8">
-                                        <rect key="frame" x="16" y="607" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="LC3-wn-Pco"/>
-                                            <constraint firstAttribute="width" constant="44" id="Msb-ln-3zp"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="Video Camera Icon"/>
-                                    </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ur5-RG-Xjj">
-                                        <rect key="frame" x="278" y="577" width="97" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PdN-q6-0HD">
-                                        <rect key="frame" x="278" y="615" width="97" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="97" id="5Oj-B4-IfL"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jwi-hh-EJV">
-                                        <rect key="frame" x="248" y="618" width="22" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2F-hT-fee">
-                                        <rect key="frame" x="248" y="580" width="22" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="6JQ-4E-Jdy"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="pfX-fU-RS1" firstAttribute="leading" secondItem="Lnd-7g-U5f" secondAttribute="leading" constant="16" id="2q6-T4-3Fb"/>
-                                    <constraint firstItem="ur5-RG-Xjj" firstAttribute="leading" secondItem="W2F-hT-fee" secondAttribute="trailing" constant="8" symbolic="YES" id="44E-0S-7Vm"/>
-                                    <constraint firstItem="PdN-q6-0HD" firstAttribute="top" secondItem="ur5-RG-Xjj" secondAttribute="bottom" constant="8" symbolic="YES" id="6Q4-X8-vdf"/>
-                                    <constraint firstItem="ur5-RG-Xjj" firstAttribute="leading" secondItem="PdN-q6-0HD" secondAttribute="leading" id="8QO-mX-J8u"/>
-                                    <constraint firstItem="Jwi-hh-EJV" firstAttribute="baseline" secondItem="PdN-q6-0HD" secondAttribute="baseline" id="9xA-EU-hbe"/>
-                                    <constraint firstItem="4wa-M1-7a8" firstAttribute="top" secondItem="pfX-fU-RS1" secondAttribute="bottom" id="DK2-oB-NSM"/>
-                                    <constraint firstAttribute="trailing" secondItem="dNR-Vo-zfA" secondAttribute="trailing" constant="16" id="EjQ-lm-I0V"/>
-                                    <constraint firstItem="4wa-M1-7a8" firstAttribute="top" secondItem="pfX-fU-RS1" secondAttribute="bottom" id="R5S-ha-LeS"/>
-                                    <constraint firstItem="dNR-Vo-zfA" firstAttribute="top" secondItem="TK7-Oc-3y1" secondAttribute="bottom" id="RPo-BF-zn6"/>
-                                    <constraint firstAttribute="bottom" secondItem="PdN-q6-0HD" secondAttribute="bottom" constant="22" id="RT3-KS-lcQ"/>
-                                    <constraint firstAttribute="bottom" secondItem="4wa-M1-7a8" secondAttribute="bottom" constant="16" id="S2u-I4-S3G"/>
-                                    <constraint firstItem="PdN-q6-0HD" firstAttribute="leading" secondItem="Jwi-hh-EJV" secondAttribute="trailing" constant="8" symbolic="YES" id="UdV-XW-k8j"/>
-                                    <constraint firstItem="TK7-Oc-3y1" firstAttribute="top" secondItem="Lnd-7g-U5f" secondAttribute="top" constant="16" id="Ush-vW-6Qx"/>
-                                    <constraint firstItem="W2F-hT-fee" firstAttribute="baseline" secondItem="ur5-RG-Xjj" secondAttribute="baseline" id="WeG-3J-MQl"/>
-                                    <constraint firstItem="ur5-RG-Xjj" firstAttribute="trailing" secondItem="PdN-q6-0HD" secondAttribute="trailing" id="m0X-td-iVw"/>
-                                    <constraint firstItem="Jwi-hh-EJV" firstAttribute="leading" secondItem="W2F-hT-fee" secondAttribute="leading" id="nwH-vh-1TX"/>
-                                    <constraint firstItem="4wa-M1-7a8" firstAttribute="leading" secondItem="Lnd-7g-U5f" secondAttribute="leading" constant="16" id="pYy-O2-Wxg"/>
-                                    <constraint firstAttribute="trailing" secondItem="TK7-Oc-3y1" secondAttribute="trailing" constant="16" id="tqP-Ux-GM9"/>
-                                    <constraint firstAttribute="trailing" secondItem="PdN-q6-0HD" secondAttribute="trailing" id="uHT-xN-x15"/>
-                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Akr-g7-ggC">
                                 <rect key="frame" x="160" y="596" width="55" height="55"/>
@@ -146,12 +51,6 @@
                     <connections>
                         <outlet property="captureButton" destination="Akr-g7-ggC" id="ZHd-4Q-aGF"/>
                         <outlet property="capturePreviewView" destination="Lnd-7g-U5f" id="1h1-9E-VM0"/>
-                        <outlet property="delay" destination="PdN-q6-0HD" id="lVd-Mp-GbK"/>
-                        <outlet property="numPhotos" destination="ur5-RG-Xjj" id="lJi-TJ-Mwq"/>
-                        <outlet property="photoModeButton" destination="pfX-fU-RS1" id="wuL-Lw-Q6f"/>
-                        <outlet property="toggleCameraButton" destination="dNR-Vo-zfA" id="Tc7-9N-4bs"/>
-                        <outlet property="toggleFlashButton" destination="TK7-Oc-3y1" id="pfk-k4-hgk"/>
-                        <outlet property="videoModeButton" destination="4wa-M1-7a8" id="mdr-rd-U2f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -159,10 +58,4 @@
             <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Flash Off Icon" width="24" height="24"/>
-        <image name="Photo Camera Icon" width="24" height="24"/>
-        <image name="Rear Camera Icon" width="24" height="24"/>
-        <image name="Video Camera Icon" width="24" height="24"/>
-    </resources>
 </document>
