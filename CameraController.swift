@@ -10,6 +10,8 @@ import AVFoundation
 import UIKit
 
 class CameraController: NSObject {
+    var exposureTime = AVCaptureExposureDurationCurrent
+    
     var captureSession: AVCaptureSession?
     
     var currentCameraPosition: CameraPosition?
@@ -26,6 +28,26 @@ class CameraController: NSObject {
 }
 
 extension CameraController {
+    
+    func setFocus() throws {
+        let session = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaTypeVideo, position: .unspecified)
+        guard let cameras = (session?.devices.flatMap { $0 }), !cameras.isEmpty else { throw CameraControllerError.noCamerasAvailable }
+        
+        for camera in cameras {
+            if camera.position == .back {
+                self.rearCamera = camera
+                
+                try camera.lockForConfiguration()
+                //if(camera.isExposureModeSupported(AVCaptureExposureMode.custom)) {
+                //    camera.setExposureModeCustomWithDuration(duration: CMTime, iso: Float, completionHandler: ((CMTime) -> Void)!)
+                //}
+                camera.exposureMode = .autoExpose
+                camera.focusMode = .autoFocus
+                camera.unlockForConfiguration()
+            }
+        }
+    }
+    
     func prepare(completionHandler: @escaping (Error?) -> Void) {
         func createCaptureSession() {
             self.captureSession = AVCaptureSession()
@@ -40,7 +62,11 @@ extension CameraController {
                     self.rearCamera = camera
                     
                     try camera.lockForConfiguration()
-                    camera.focusMode = .continuousAutoFocus
+                    //if(camera.isExposureModeSupported(AVCaptureExposureMode.custom)) {
+                    //    camera.setExposureModeCustomWithDuration(duration: CMTime, iso: Float, completionHandler: ((CMTime) -> Void)!)
+                    //}
+                    camera.exposureMode = .autoExpose
+                    camera.focusMode = .autoFocus
                     camera.unlockForConfiguration()
                 }
             }
@@ -118,7 +144,6 @@ extension CameraController: AVCapturePhotoCaptureDelegate {
     public func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?,
                         resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Swift.Error?) {
         if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
-            
         //else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.dngPhotoDataRepresentation(forRawSampleBuffer: buffer, previewPhotoSampleBuffer: nil),
         else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil),
             let image = UIImage(data: data) {

@@ -11,6 +11,16 @@ import Photos
 
 class ViewController: UIViewController {
     
+    var level: Float = 0.0
+    let cameraController = CameraController()
+    
+    @IBAction func focus(_ sender: UIButton) {
+        do {
+            try cameraController.setFocus()
+        } catch {
+            print("failed setFocus\n")
+        }
+    }
     @IBOutlet fileprivate var captureButton: UIButton!
     
     @IBOutlet var delay: UITextField!
@@ -20,7 +30,6 @@ class ViewController: UIViewController {
     @IBOutlet fileprivate var capturePreviewView: UIView!
 
     
-    let cameraController = CameraController()
     
     override var prefersStatusBarHidden: Bool { return true }
     
@@ -28,13 +37,12 @@ class ViewController: UIViewController {
 
 extension ViewController {
     override func viewDidLoad() {
-        
+        self.level = 1.0
         func configureCameraController() {
             cameraController.prepare {(error) in
                 if let error = error {
                     print(error)
                 }
-                
                 try? self.cameraController.displayPreview(on: self.capturePreviewView)
             }
         }
@@ -57,13 +65,18 @@ extension ViewController {
     }
 }
 
+
 func toggleFlash() {
     if let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo), device.hasTorch {
         do {
             try device.lockForConfiguration()
-            let torchOn = !device.isTorchActive
-            try device.setTorchModeOnWithLevel(1.0)
-            device.torchMode = torchOn ? .on : .off
+            if(device.isTorchActive) {
+                device.torchMode = .off
+                print("off")
+            } else {
+                try device.setTorchModeOnWithLevel(0.00001)
+                print("on")
+            }
             device.unlockForConfiguration()
         } catch {
             print("error")
@@ -72,7 +85,6 @@ func toggleFlash() {
 }
 
 extension ViewController {
-    
     @IBAction func captureImage(_ sender: UIButton) {
             self.cameraController.captureImage {(image, error) in
                 guard let image = image else {
@@ -83,9 +95,9 @@ extension ViewController {
                     PHAssetChangeRequest.creationRequestForAsset(from: image)
                 }
             }
-        sleep(1)
+        usleep(500000)
         toggleFlash()
-        sleep(1)
+        usleep(500000)
         cameraController.captureImage {(image, error) in
             guard let image = image else {
                 print(error ?? "Image capture error")
