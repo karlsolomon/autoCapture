@@ -11,6 +11,7 @@ import UIKit
 
 class CameraController: NSObject {
     var exposureTime = AVCaptureExposureDurationCurrent
+    var lensPosition : Float = 1.00 //.05 = 3mm
     
     var captureSession: AVCaptureSession?
     
@@ -41,9 +42,14 @@ extension CameraController {
                 //if(camera.isExposureModeSupported(AVCaptureExposureMode.custom)) {
                 //    camera.setExposureModeCustomWithDuration(duration: CMTime, iso: Float, completionHandler: ((CMTime) -> Void)!)
                 //}
-                camera.exposureMode = .autoExpose
-                camera.focusMode = .autoFocus
-                camera.unlockForConfiguration()
+                //camera.autoFocusRangeRestriction = .near
+
+                //camera.focusMode = .autoFocus
+                camera.setFocusModeLockedWithLensPosition(self.lensPosition, completionHandler: { (CMTime) in
+                    camera.exposureMode = .autoExpose
+                    print("\n\nLensPosition: \(camera.lensPosition)\nExposureTime: \(camera.exposureDuration)\nCurrentISO: \(camera.iso)")
+                    camera.unlockForConfiguration()
+                })
             }
         }
     }
